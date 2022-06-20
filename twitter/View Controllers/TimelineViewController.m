@@ -8,12 +8,21 @@
 
 #import "TimelineViewController.h"
 #import "APIManager.h"
+#import "AppDelegate.h"
+#import "LoginViewController.h"
 
 @interface TimelineViewController ()
 
 @end
 
 @implementation TimelineViewController
+- (IBAction)didTapLogout:(id)sender {
+    AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
+
+    UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
+    LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
+    appDelegate.window.rootViewController = loginViewController;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -30,6 +39,7 @@
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
         }
     }];
+    [[APIManager shared] logout];
 }
 
 - (void)didReceiveMemoryWarning {
