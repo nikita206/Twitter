@@ -13,31 +13,39 @@
 #import "UIImageView+AFNetworking.h"
 #import "TweetCell.h"
 #import "Tweet.h"
+#import "ComposeViewController.h"
+#import "TweetViewController.h"
 
-@interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
+@interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+
 @property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
 @implementation TimelineViewController
+- (void)viewDidLoad {
+    [super viewDidLoad];
+    self.tableView.dataSource = self;
+    self.tableView.delegate = self;
+    
+    //refresh the timeline
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
+    
+    //fetch tweets
+    [self fetchTweets];
+    
+    
+}
+
 - (IBAction)didTapLogout:(id)sender {
     AppDelegate *appDelegate = (AppDelegate *)[UIApplication sharedApplication].delegate;
 
     UIStoryboard *storyboard = [UIStoryboard storyboardWithName:@"Main" bundle:nil];
     LoginViewController *loginViewController = [storyboard instantiateViewControllerWithIdentifier:@"LoginViewController"];
     appDelegate.window.rootViewController = loginViewController;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    self.tableView.dataSource = self;
-    self.tableView.delegate = self;
-    [self fetchTweets];
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
-    [self.tableView insertSubview:self.refreshControl atIndex:0];
-    
     [[APIManager shared] logout];
 }
 
@@ -49,13 +57,13 @@
             for (Tweet *tweet in tweets) {
                 NSString *text = tweet.text;
                 NSLog(@"%@", text);
+                [self.tableView reloadData];
             }
-            [self.tableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
             [self.tableView reloadData];
-            [self.refreshControl endRefreshing];
         }
+        [self.refreshControl endRefreshing];
     }];
 }
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
@@ -66,7 +74,7 @@
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
     
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
-    
+    cell.tweet = tweet;
     cell.name.text = tweet.user.name;
     cell.username.text = tweet.user.screenName;
     cell.date.text = tweet.createdAtString;
@@ -76,6 +84,8 @@
     NSURL *url = [NSURL URLWithString:URLString];
     NSData *urlData = [NSData dataWithContentsOfURL:url];
     cell.profilePic.image = [UIImage imageWithData:urlData];
+    cell.likes.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
+    cell.retweeted.text = [NSString stringWithFormat:@"%d", tweet.retweetCount];
     
     return cell;
 }
@@ -85,17 +95,30 @@
     // Dispose of any resources that can be recreated.
 }
 
+-(void) didTweet{
+    [self.tableView reloadData];
+}
 
 
-/*
+
+
 #pragma mark - Navigation
 
-// In a storyboard-based application, you will often want to do a little preparation before navigation
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
+    if([[segue identifier]  isEqualToString:@"detailTweet"]) {
+            UITableViewCell *cell = sender;
+            NSIndexPath *indexPath = [self.tableView indexPathForCell:cell];
+            Tweet *tweet = self.arrayOfTweets[indexPath.row];
+            TweetViewController *detailVC = [segue destinationViewController];
+            detailVC.tweet = tweet;
+        }
+    else {
+    UINavigationController *navigationController = [segue destinationViewController];
+    ComposeViewController *composeController = [segue destinationViewController];
+    composeController.delegate = self;
+    }
 }
-*/
+
 
 
 @end
