@@ -16,6 +16,7 @@
 
 @interface TimelineViewController () <UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
+@property (strong, nonatomic) UIRefreshControl *refreshControl;
 
 @end
 
@@ -32,8 +33,15 @@
     [super viewDidLoad];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    [self fetchTweets];
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    [self.refreshControl addTarget:self action:@selector(fetchTweets) forControlEvents:UIControlEventValueChanged];
+    [self.tableView insertSubview:self.refreshControl atIndex:0];
     
-    // Get timeline
+    [[APIManager shared] logout];
+}
+
+-(void) fetchTweets{
     [[APIManager shared] getHomeTimelineWithCompletion:^(NSArray *tweets, NSError *error) {
         if (tweets) {
             NSLog(@"😎😎😎 Successfully loaded home timeline");
@@ -45,27 +53,30 @@
             [self.tableView reloadData];
         } else {
             NSLog(@"😫😫😫 Error getting home timeline: %@", error.localizedDescription);
+            [self.tableView reloadData];
+            [self.refreshControl endRefreshing];
         }
     }];
-    
-    [[APIManager shared] logout];
 }
-
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
     return self.arrayOfTweets.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     TweetCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TweetCell"];
+    
     Tweet *tweet = self.arrayOfTweets[indexPath.row];
     
-    cell.name.text = tweet.text;
-    cell.username.text = tweet.text;
+    cell.name.text = tweet.user.name;
+    cell.username.text = tweet.user.screenName;
+    cell.date.text = tweet.createdAtString;
+    cell.tweetContent.text = tweet.text;
     
     NSString *URLString = tweet.user.profilePicture;
     NSURL *url = [NSURL URLWithString:URLString];
-//
     NSData *urlData = [NSData dataWithContentsOfURL:url];
+    cell.profilePic.image = [UIImage imageWithData:urlData];
+    
     return cell;
 }
 
@@ -73,6 +84,8 @@
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 
 /*
 #pragma mark - Navigation
