@@ -15,6 +15,7 @@
 #import "Tweet.h"
 #import "ComposeViewController.h"
 #import "TweetViewController.h"
+#import "DateTools.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -77,7 +78,7 @@
     cell.tweet = tweet;
     cell.name.text = tweet.user.name;
     cell.username.text = tweet.user.screenName;
-    cell.date.text = tweet.createdAtString;
+    cell.date.text = [@"· " stringByAppendingString:[tweet.timeSinceNowDate shortTimeAgoSinceNow]];
     cell.tweetContent.text = tweet.text;
     
     NSString *URLString = tweet.user.profilePicture;
