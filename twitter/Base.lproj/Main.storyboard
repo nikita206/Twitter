@@ -380,7 +380,17 @@
                                 <color key="textColor" systemColor="labelColor"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                <connections>
+                                    <outlet property="delegate" destination="ymc-tq-taf" id="GJO-is-Pb9"/>
+                                </connections>
                             </textView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="0" textAlignment="natural" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ve-DJ-esc">
+                                <rect key="frame" x="308" y="289" width="51" height="28"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="light" pointSize="15"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="SPg-qk-JA5"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -398,6 +408,7 @@
                         </barButtonItem>
                     </navigationItem>
                     <connections>
+                        <outlet property="characterCount" destination="2Ve-DJ-esc" id="HJ5-zB-KGY"/>
                         <outlet property="textView" destination="9Ic-hw-BuD" id="gBo-rQ-5pd"/>
                     </connections>
                 </viewController>
