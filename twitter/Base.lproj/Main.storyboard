@@ -207,6 +207,8 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
+                                            <outlet property="changeIcon" destination="70m-Hk-bSS" id="kR8-eE-AIt"/>
+                                            <outlet property="changeRetweet" destination="Pio-3l-XEu" id="FMS-ty-Rxy"/>
                                             <outlet property="date" destination="o65-fL-n7c" id="fPg-ej-Exh"/>
                                             <outlet property="likes" destination="yfs-5Z-urA" id="CwJ-00-hQf"/>
                                             <outlet property="name" destination="obR-LQ-TUz" id="2LT-hw-x0C"/>
@@ -373,7 +375,7 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="647"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" text="Tweet here" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9Ic-hw-BuD">
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" textAlignment="natural" translatesAutoresizingMaskIntoConstraints="NO" id="9Ic-hw-BuD">
                                 <rect key="frame" x="16" y="75" width="343" height="206"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                 <color key="backgroundColor" systemColor="systemBackgroundColor"/>

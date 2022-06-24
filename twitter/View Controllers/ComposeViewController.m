@@ -39,16 +39,6 @@
 }
 
 
-- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text{
-    // Set the max character limit
-    int characterLimit = 10;
-
-    // Construct what the new text would be if we allowed the user's latest edit
-    NSString *newText = [self.textView.text stringByReplacingCharactersInRange:range withString:text];
-    // Should the new text should be allowed? True/False
-    return newText.length < characterLimit;
-}
-
 -(void)textViewDidChange:(UITextView *)textView{
     NSString *substring = [NSString stringWithString:textView.text];
     if(substring.length > 0){
@@ -61,8 +51,17 @@
     }
     
     if(substring.length == 10){
-        UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Error" message:@"Tweet limit is 280 characters" delegate:self cancelButtonTitle:@"OK" otherButtonTitles: nil];
-        [alert show];
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Limit exceeded" message:@"Character limit is 10. Please reduce characters"
+        preferredStyle:UIAlertControllerStyleAlert];
+         
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+           handler:^(UIAlertAction * action) {}];
+         
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    if(substring.length > 10){
+        self.characterCount.textColor = [UIColor redColor];
     }
 }
 

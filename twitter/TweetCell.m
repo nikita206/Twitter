@@ -28,7 +28,7 @@
     if (self.tweet.favorited) {
             self.tweet.favorited = NO;
             self.tweet.favoriteCount -= 1;
-            
+        [self.changeIcon setImage:[UIImage imageNamed:@"favor-icon.png"] forState:UIControlStateNormal];
             // send a POST request to the POST favorites/create endpoint
             [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
                 if(error){
@@ -42,6 +42,7 @@
     else{
         self.tweet.favorited = YES;
         self.tweet.favoriteCount += 1;
+        [self.changeIcon setImage:[UIImage imageNamed:@"favor-icon-red.png"] forState:UIControlStateNormal];
         [[APIManager shared] favorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
              if(error){
                   NSLog(@"Error favoriting tweet: %@", error.localizedDescription);
@@ -60,6 +61,7 @@
             self.tweet.retweetCount -= 1;
             
             // send a POST request to the POST favorites/create endpoint
+        [self.changeRetweet setImage:[UIImage imageNamed:@"retweet-icon.png"] forState:UIControlStateNormal];
             [[APIManager shared] unretweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
                 if(error){
                     NSLog(@"Error unretweeting tweet: %@", error.localizedDescription);
@@ -72,6 +74,7 @@
     else{
         self.tweet.retweeted = YES;
         self.tweet.retweetCount += 1;
+        [self.changeRetweet setImage:[UIImage imageNamed:@"retweet-icon-green.png"] forState:UIControlStateNormal];
         [[APIManager shared] retweet:self.tweet completion:^(Tweet *tweet, NSError *error) {
              if(error){
                   NSLog(@"Error retweeting tweet: %@", error.localizedDescription);
