@@ -16,6 +16,7 @@
 #import "ComposeViewController.h"
 #import "TweetViewController.h"
 #import "DateTools.h"
+#import "ProfileViewController.h"
 
 @interface TimelineViewController () <ComposeViewControllerDelegate, UITableViewDataSource, UITableViewDelegate>
 @property (weak, nonatomic) IBOutlet UITableView *tableView;
@@ -87,7 +88,7 @@
     cell.profilePic.image = [UIImage imageWithData:urlData];
     cell.likes.text = [NSString stringWithFormat:@"%d", tweet.favoriteCount];
     cell.retweeted.text = [NSString stringWithFormat:@"%d", tweet.retweetCount];
-    
+    cell.delegate = self;
     return cell;
 }
 
@@ -100,8 +101,9 @@
     [self.tableView reloadData];
 }
 
-
-
+- (void)tweetCell:(TweetCell *)tweetCell didTap:(User *)user{
+    [self performSegueWithIdentifier:@"profileSegue" sender:user];
+}
 
 #pragma mark - Navigation
 

@@ -62,7 +62,6 @@
     if (self.tweet.favorited) {
             self.tweet.favorited = NO;
             self.tweet.favoriteCount -= 1;
-            
             // send a POST request to the POST favorites/create endpoint
             [[APIManager shared] unfavorite:self.tweet completion:^(Tweet *tweet, NSError *error) {
                 if(error){

@@ -34,6 +34,8 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.textView.layer.cornerRadius = 5;
+    self.textView.layer.borderWidth = 0.5;
     self.textView.delegate = self;
     [self.textView becomeFirstResponder];
 }

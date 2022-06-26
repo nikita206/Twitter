@@ -246,6 +246,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="tableView" destination="pin-Da-p75" id="4Lb-Wg-S7H"/>
+                        <segue destination="ZcP-9x-Eck" kind="show" identifier="profileSegue" id="Ddw-qv-yKf"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="oQh-hN-GQg" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -300,7 +301,7 @@
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lmm-0B-ZGD">
-                                        <rect key="frame" x="8" y="8" width="60" height="74"/>
+                                        <rect key="frame" x="17" y="16" width="60" height="74"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="320" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="giE-Oc-NHQ">
@@ -365,7 +366,29 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="htA-8U-2JZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1573.5999999999999" y="714.69265367316348"/>
+            <point key="canvasLocation" x="1578" y="737"/>
+        </scene>
+        <!--Profile View Controller-->
+        <scene sceneID="GdB-Pz-4Hx">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ec1-7Q-fbx" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController id="ZcP-9x-Eck" customClass="ProfileViewController" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EY-ic-mwd">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tUe-Tz-QIS">
+                                <rect key="frame" x="16" y="20" width="240" height="128"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="7k2-5q-q8D"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="ibR-NZ-pdU"/>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="2394" y="736"/>
         </scene>
         <!--Compose View Controller-->
         <scene sceneID="caK-AL-QQg">
