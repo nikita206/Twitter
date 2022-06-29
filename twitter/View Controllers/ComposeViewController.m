@@ -7,8 +7,10 @@
 //
 
 #import "ComposeViewController.h"
+#import "APIManager.h"
 
-@interface ComposeViewController ()
+@interface ComposeViewController () 
+@property (weak, nonatomic) IBOutlet UILabel *characterCount;
 @property (weak, nonatomic) IBOutlet UITextView *textView;
 @end
 
@@ -18,12 +20,51 @@
 }
 
 - (IBAction)tweetButton:(id)sender {
+    [[APIManager shared] postStatusWithText:(self.textView.text) completion:^(Tweet * tweet, NSError * error) {
+        if(error){
+            NSLog(@"Error composing Tweet: %@", error.localizedDescription);
+        }
+        else{
+            [self.delegate didTweet:tweet];
+            NSLog(@"Compose Tweet Success!");
+            [self dismissViewControllerAnimated:true completion:nil];
+        }
+    }];
 }
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.textView.layer.cornerRadius = 5;
+    self.textView.layer.borderWidth = 0.5;
+    self.textView.delegate = self;
+    [self.textView becomeFirstResponder];
+}
+
+
+-(void)textViewDidChange:(UITextView *)textView{
+    NSString *substring = [NSString stringWithString:textView.text];
+    if(substring.length > 0){
+        self.characterCount.hidden = NO;
+        self.characterCount.text = [NSString stringWithFormat:@"%d characters", substring.length];
+    }
     
-    // Do any additional setup after loading the view.
+    if(substring.length == 0){
+        self.characterCount.hidden = YES;
+    }
+    
+    if(substring.length == 10){
+        UIAlertController* alert = [UIAlertController alertControllerWithTitle:@"Limit exceeded" message:@"Character limit is 10. Please reduce characters"
+        preferredStyle:UIAlertControllerStyleAlert];
+         
+        UIAlertAction* defaultAction = [UIAlertAction actionWithTitle:@"OK" style:UIAlertActionStyleDefault
+           handler:^(UIAlertAction * action) {}];
+         
+        [alert addAction:defaultAction];
+        [self presentViewController:alert animated:YES completion:nil];
+    }
+    if(substring.length > 10){
+        self.characterCount.textColor = [UIColor redColor];
+    }
 }
 
 /*
